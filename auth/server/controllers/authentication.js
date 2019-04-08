@@ -26,6 +26,6 @@ exports.signup = function(req, res, next) {
     });
 
     // respond to request indicating the user was created
-    res.json(user);
+    res.json({ success: true });
   });
 };
