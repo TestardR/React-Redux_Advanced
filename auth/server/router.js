@@ -10,5 +10,5 @@ module.exports = function(app) {
       .catch(err => res.status(404).json({ nousersfound: 'No users found' }));
   });
 
-  app.post('/signup', Authentication.signup);
+  app.post('/signup', Authentication.signUp);
 };

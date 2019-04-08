@@ -1,37 +1,27 @@
 const User = require('../models/user');
 
-exports.signup = function(req, res, next) {
+exports.signUp = async (req, res, next) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res
-      .status(422)
-      .send({ error: 'You must provde email and password' });
-  }
+  try {
+    const user = await User.findOne({ email: email });
 
-  // see if a user with a given email exists
-  User.findOne({ email: email }, function(err, existingUser) {
-    if (err) {
-      return next(err);
-    }
-    // if a suer with email does exist, return an error,
-    if (existingUser) {
-      return res.status(422).send({ error: 'Email is in use' });
+    if (user) {
+      res.status(422).send({ error: 'Email already in use' });
     }
 
-    // if a user with email does NOT exist, create and save user record
-    const user = new User({
+    const newUser = new User({
       email: email,
       password: password
     });
 
-    user.save(function(err) {
-      if (err) {
-        return next(err);
-      }
-    });
-
-    // respond to request indicating the user was created
-    res.json({ success: true });
-  });
+    try {
+      const saved = await newUser.save();
+      res.send(saved);
+    } catch (err) {
+      return next(err);
+    }
+  } catch (err) {
+    return next(err);
+  }
 };
