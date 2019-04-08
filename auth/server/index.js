@@ -17,3 +17,12 @@ const port = process.env.PORT || 3090;
 const server = http.createServer(app);
 server.listen(port);
 console.log('Server listening on:', port);
+
+// DB Config
+const db = require('./config/keys').mongoURI;
+
+// Connect to MongoDB
+mongoose
+  .connect(db, { useNewUrlParser: true })
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log('Error: ', err));
