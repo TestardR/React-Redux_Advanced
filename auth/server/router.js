@@ -4,6 +4,7 @@ const passport = require('passport');
 
 // We want to use jwt and not create a session cookie
 const requireAuth = passport.authenticate('jwt', { session: false });
+const requireSignin = passport.authenticate('local', { session: false });
 
 // Model
 const User = require('./models/user');
@@ -18,6 +19,8 @@ module.exports = function(app) {
   app.get('/auth', requireAuth, function(req, res) {
     res.send({ hi: 'there' });
   });
+
+  app.post('/signin', requireSignin, Authentication.signIn);
 
   app.post('/signup', Authentication.signUp);
 };
