@@ -13,7 +13,7 @@ import Signup from './components/auth/Signup';
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 
 ReactDOM.render(
-  <Provider store={createStore(store)}>
+  <Provider store={store}>
     <BrowserRouter>
       <App>
         <Route path="/" component={Welcome} />
